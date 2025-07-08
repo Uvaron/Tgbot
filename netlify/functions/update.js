@@ -10,7 +10,7 @@ exports.handler = async (event) => {
   if (randomNumber === 1) {
     await axios.post(`https://api.telegram.org/bot${process.env.BOT_TOKEN}/sendMessage`, {
       chat_id: JSON.parse(event.body).message.chat.id,
-      text: "х",
+      text: "ты чу",
     });
   } else {
     console.log("Random number is not 1. No message sent.");
