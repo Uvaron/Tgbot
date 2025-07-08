@@ -1,3 +1,5 @@
+import { default as axios } from 'axios';
+
 const axios = require("axios").default;
 
 exports.handler = async (event) => {
