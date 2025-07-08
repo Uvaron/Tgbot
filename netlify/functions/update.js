@@ -1,4 +1,4 @@
-const axios = require("axios").default;
+const axios = require("axios");
 
 exports.handler = async (event) => {
   console.log("Received an update from Telegram!", event.body);
