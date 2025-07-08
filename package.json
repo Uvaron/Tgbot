@@ -18,7 +18,4 @@
     "url": "https://github.com/Uvaron/Tgbot/issues"
   },
   "homepage": "https://github.com/Uvaron/Tgbot#readme"
-  "dependencies": {
-  "axios": "^0.21.1", 
-  }
 }
