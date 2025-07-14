@@ -6,7 +6,7 @@ exports.handler = async (event) => {
   const randomNumber = Math.floor(Math.random() * 5) + 1;
   // Check if the random number is 1
   if (randomNumber === 1) {
-  await sendMessage(message.chat.id, "");
+  await sendMessage(message.chat.id, "ниггерс");
   console.log("Received an update from Telegram!", event.body);}
 
 
