@@ -1,20 +1,15 @@
 const sendMessage = require("../../sendMessage");
+const messageParts = require("../../messageParts");
 
 exports.handler = async (event) => {
-  if (event.httpMethod !== "POST") {
-    return { statusCode: 405, body: "Method Not Allowed" };
+  const { message } = JSON.parse(event.body);
+  const { command, botName, extra } = messageParts(message.text);
+
+  if (botName === "partiibot" || botName === null) {
+    await sendMessage(message.chat.id, "I got your message!");
   }
-  try {
-    const { message } = JSON.parse(event.body);
-    const randomNumber = Math.floor(Math.random() * 5) + 1;
-    if (randomNumber === 1) {
-      await sendMessage(message.chat.id, "че ты лысый");
-      console.log("Received an update from Telegram!", event.body);
-    }
-    return { statusCode: 200, body: "OK" };
-  } catch (err) {
-    return { statusCode: 400, body: "Invalid JSON or missing message" };
-  }
+
+  return { statusCode: 200 };
 };
 
 
