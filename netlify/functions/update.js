@@ -26,9 +26,8 @@ exports.handler = async (event) => {
 
   if (botName === "Queens_never_cry_bot" || botName === "") {
     switch (command) {
-  case "Qecho":
+  case "Queens":
     const randomIndex = Math.floor(Math.random() * queens.length);
-    
     const responseMessage = queens[randomIndex];
     await sendMessage(message.chat.id, responseMessage);
     break;
