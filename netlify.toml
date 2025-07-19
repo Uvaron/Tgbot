@@ -1,0 +1,5 @@
+[dev]
+  command = "npm run start" # Or the command to start your dev server
+  port = 8888               # The port your local server runs on
+  targetPort = 3999         # If you use a framework dev server, set its port here
+  publish = "macbook"       # Or your static folder, e.g., "public", "dist"
