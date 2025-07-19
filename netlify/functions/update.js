@@ -8,7 +8,7 @@ exports.handler = async (event) => {
   if (botName === "partiibot" || botName === null) {
     switch (command) {
   case "echo":
-    await sendMessage(message.chat.id, extra);
+    await sendMessage(message.chat.id, extra || "ECHO!");
     break;
   default:
     await sendMessage(message.chat.id, "I don't understand that command.");
