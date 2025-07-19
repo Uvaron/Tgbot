@@ -7,7 +7,7 @@ exports.handler = async (event) => {
 
   if (botName === "Queens_never_cry_bot") {
     switch (command) {
-  case "echo":
+  case " echo":
     await sendMessage(message.chat.id, extra || "ECHO!");
     break;
   default:
