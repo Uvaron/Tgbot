@@ -38,7 +38,7 @@ exports.handler = async (event) => {
         await sendMessage(message.chat.id, "/Qecho - для эха, /Queens - узнай, какой страны ты Королева");
         break;
       default:
-        await sendMessage(message.chat.id, "");
+        await sendMessage(message.chat.id, null);
     }
   }
 
