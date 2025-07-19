@@ -3,7 +3,7 @@ const messageParts = require("../../messageParts");
 
 exports.handler = async (event) => {
   const { message } = JSON.parse(event.body);
-  const { command, botName, extra } = messageParts(message.text);
+  const { botName, command, extra } = messageParts(message.text);
 
   if (botName === "Queens_never_cry_bot") {
     switch (command) {
