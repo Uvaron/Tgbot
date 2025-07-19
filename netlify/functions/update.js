@@ -34,7 +34,7 @@ exports.handler = async (event) => {
   case "Qecho":
     await sendMessage(message.chat.id, extra || "ECHO!");
     break;
-  case "Qhelp"
+  case "Qhelp":
     await sendMessage(message.chat.id, "Дарова, я Королевабот, напиши мне любую команду из того, что я сейчас перечислю и мы начнём!");
     await sendMessage(message.chat.id, "/Qecho - для эха, /Queens - узнай, какой страны ты Королева");
     break;
