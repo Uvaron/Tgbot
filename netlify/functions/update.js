@@ -5,7 +5,7 @@ exports.handler = async (event) => {
   const { message } = JSON.parse(event.body);
   const { command, botName, extra } = messageParts(message.text);
 
-  if (botName === "Queensbot") {
+  if (botName === "Queens_never_cry_bot") {
     switch (command) {
   case "echo":
     await sendMessage(message.chat.id, extra || "ECHO!");
