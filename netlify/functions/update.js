@@ -1,6 +1,6 @@
 const { exec } = require('node:child_process');
-
-const tictactoePath = require("../../tictactoe"); // Правильный путь к исполняемому файлу
+const path = require('path');
+const tictactoePath = path.join(__dirname, '../../tictactoe');
 const sendMessage = require("../../sendMessage");
 const messageParts = require("../../messageParts");
 
