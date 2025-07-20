@@ -1,6 +1,5 @@
 const { exec } = require('child_process');
-const path = require('path');
-const cFilePath = path.join(__dirname, '../../tictactoe');
+const tictactoe = require("../../tictactoe");
 const sendMessage = require("../../sendMessage");
 const messageParts = require("../../messageParts");
 
@@ -57,7 +56,7 @@ exports.handler = async (event) => {
         await sendMessage(message.chat.id, "/Qecho @Q - для эха, /Queens @Q - узнай, какой страны ты Королева");
         break;
       case "Qgame":
-        exec(cFilePath, (error, stdout, stderr) => {
+        exec(tictactoe, (error, stdout, stderr) => {
     if (error) {
         console.error(`Ошибка: ${error.message}`);
         return;
