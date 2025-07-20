@@ -1,6 +1,6 @@
 const { exec } = require('child_process');
 const path = require('path');
-const cFilePath = path.join(__dirname, '../tictactoe');
+const cFilePath = path.join(__dirname, '../../tictactoe');
 const sendMessage = require("../../sendMessage");
 const messageParts = require("../../messageParts");
 
