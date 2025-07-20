@@ -1,4 +1,6 @@
 const { exec } = require('child_process');
+const path = require('path');
+const cFilePath = path.join(__dirname, 'tictactoe');
 const sendMessage = require("../../sendMessage");
 const messageParts = require("../../messageParts");
 
@@ -55,20 +57,17 @@ exports.handler = async (event) => {
         await sendMessage(message.chat.id, "/Qecho @Q - для эха, /Queens @Q - узнай, какой страны ты Королева");
         break;
       case "Qgame":
-        exec('./netlify/functions/tictactoe', (error, stdout, stderr) => {
-          if (error) {
-            console.error(`Exec Error: ${error.message}`);
-            sendMessage(message.chat.id, 'Ошибка при запуске игры.');
-            return;
-          }
-          if (stderr) {
-            console.error(`Exec Stderr: ${stderr}`);
-            sendMessage(message.chat.id, 'Произошла ошибка.');
-            return;
-          }
-          console.log(`Game Output: ${stdout}`);
-          sendMessage(message.chat.id, stdout);
-        });
+        exec(cFilePath, (error, stdout, stderr) => {
+    if (error) {
+        console.error(`Ошибка: ${error.message}`);
+        return;
+    }
+    if (stderr) {
+        console.error(`Ошибка: ${stderr}`);
+        return;
+    }
+    console.log(`Вывод: ${stdout}`);
+});
         break;
       default:
         await sendMessage(message.chat.id, "Неизвестная команда.");
