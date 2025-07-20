@@ -39,7 +39,7 @@ exports.handler = async (event) => {
         await sendMessage(message.chat.id, "/Qecho @Q - для эха, /Queens @Q - узнай, какой страны ты Королева");
         break;
       case "Qgame": // Новая команда для игры
-                exec('./tictactoe', (error, stdout, stderr) => {
+                exec('Tgbot/netlify/functions/tictactoe', (error, stdout, stderr) => {
                     if (error) {
                         console.error(`Ошибка: ${error.message}`);
                         sendMessage(message.chat.id, 'Произошла ошибка при запуске игры.');
