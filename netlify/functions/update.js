@@ -1,6 +1,7 @@
 const { exec } = require('child_process');
 const sendMessage = require("../../sendMessage");
 const messageParts = require("../../messageParts");
+
 const queens = [
   { text: "🇪🇸 Ты королева Испании — когда твое платье развивается, все быки падают в обморок." },
   { text: "🇯🇵 Ты королева Японии — когда ты выходишь на улицу, цветы сакуры начинают цвести, а самураи устраивают танец в твою честь." },
@@ -21,44 +22,58 @@ const queens = [
 ];
 
 exports.handler = async (event) => {
-  const { message } = JSON.parse(event.body);
+  let message;
+
+  // Попробуйте разобрать JSON и проверить наличие сообщения
+  try {
+    const body = JSON.parse(event.body);
+    message = body.message;
+  } catch (error) {
+    console.error("Ошибка разбора JSON:", error);
+    return { statusCode: 400, body: "Неверный формат запроса." };
+  }
+
+  if (!message || !message.text) {
+    console.error("Сообщение или текст отсутствуют.");
+    return { statusCode: 400, body: "Сообщение отсутствует." };
+  }
+
   const { botName, command, extra } = messageParts(message.text);
 
   if (botName === "Queens_never_cry_bot" || botName === "Q") {
     switch (command) {
       case "Queens":
         const randomIndex = Math.floor(Math.random() * queens.length);
-        const responseMessage = queens[randomIndex].text; // Изменено на .text
+        const responseMessage = queens[randomIndex].text;
         await sendMessage(message.chat.id, responseMessage);
         break;
       case "Qecho":
         await sendMessage(message.chat.id, extra || "ECHO!");
         break;
-      case "Qhelp": // Добавлено двоеточие
+      case "Qhelp":
         await sendMessage(message.chat.id, "Дарова, я Королевабот, напиши мне любую команду из того, что я сейчас перечислю и мы начнём!");
         await sendMessage(message.chat.id, "/Qecho @Q - для эха, /Queens @Q - узнай, какой страны ты Королева");
         break;
       case "Qgame":
-         exec('./tic_tac_toe', (error, stdout, stderr) => {
-                    if (error) {
+        exec('./tic_tac_toe', (error, stdout, stderr) => {
+          if (error) {
             console.error(`Exec Error: ${error.message}`);
             sendMessage(message.chat.id, 'Ошибка при запуске игры.');
             return;
-        }
-        if (stderr) {
+          }
+          if (stderr) {
             console.error(`Exec Stderr: ${stderr}`);
             sendMessage(message.chat.id, 'Произошла ошибка.');
             return;
-        }
-        console.log(`Game Output: ${stdout}`);
-        sendMessage(message.chat.id, stdout);
-    });
-    break;
+          }
+          console.log(`Game Output: ${stdout}`);
+          sendMessage(message.chat.id, stdout);
+        });
+        break;
       default:
-        await sendMessage(message.chat.id, null);
+        await sendMessage(message.chat.id, "Неизвестная команда.");
     }
   }
 
   return { statusCode: 200 };
 };
-
