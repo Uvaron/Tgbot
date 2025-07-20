@@ -38,23 +38,22 @@ exports.handler = async (event) => {
         await sendMessage(message.chat.id, "Дарова, я Королевабот, напиши мне любую команду из того, что я сейчас перечислю и мы начнём!");
         await sendMessage(message.chat.id, "/Qecho @Q - для эха, /Queens @Q - узнай, какой страны ты Королева");
         break;
-      case "Qgame": // Новая команда для игры
-                exec('./Tgbot/netlify/functions/tictactoe', (error, stdout, stderr) => {
-                    if (error) {
-                        console.error(`Ошибка: ${error.message}`);
-                        sendMessage(message.chat.id, 'Произошла ошибка при запуске игры.');
-                        return;
-                    }
-                    if (stderr) {
-                        console.error(`Ошибка: ${stderr}`);
-                        sendMessage(message.chat.id, 'Произошла ошибка.');
-                        return;
-                    }
-                    
-                    // Отправляем результат игры
-                    sendMessage(message.chat.id, stdout);
-                });
-                break;
+      case "Qgame":
+        exec('./Tgbot/netlify/functions/tictactoe', (error, stdout, stderr) => {
+           if (error) {
+            console.error(`Exec Error: ${error.message}`);
+            sendMessage(message.chat.id, 'Ошибка при запуске игры.');
+            return;
+        }
+        if (stderr) {
+            console.error(`Exec Stderr: ${stderr}`);
+            sendMessage(message.chat.id, 'Произошла ошибка.');
+            return;
+        }
+        console.log(`Game Output: ${stdout}`);
+        sendMessage(message.chat.id, stdout);
+    });
+    break;
       default:
         await sendMessage(message.chat.id, null);
     }
