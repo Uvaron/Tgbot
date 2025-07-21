@@ -29,7 +29,6 @@ const queens = [
   { text: "🇨🇦 Ты королева Канады — твое присутствие вызывает улыбки у медведей и заставляет кленовые листья танцевать в воздухе." }
 ];
 
-
 exports.handler = async (event) => {
   let message;
 
@@ -58,6 +57,22 @@ exports.handler = async (event) => {
         await sendMessage(message.chat.id, "/Qecho @Q - для эха, /Queens @Q - узнай, какой страны ты Королева");
         break;
       case "Qgame":
+                try {
+                    const output = await runExecutable();
+                    await sendMessage(message.chat.id, `Program output: ${output}`);
+                } catch (error) {
+                    await sendMessage(message.chat.id, "An error occurred while executing the program.");
+                }
+                break;
+      default:
+        await sendMessage(message.chat.id, "Неизвестная команда.");
+    }
+  }
+
+  return { statusCode: 200 };
+};
+
+function runExecutable() {
   exec(`gcc ${cFile} -o ${executable}`, (compileError, compileStdout, compileStderr) => {
     if (compileError) {
         console.error(`Compilation error: ${compileStderr}`);
@@ -76,12 +91,4 @@ exports.handler = async (event) => {
         console.log('C program output:');
         console.log(execStdout);
     });
-});
-  break;
-      default:
-        await sendMessage(message.chat.id, "Неизвестная команда.");
-    }
-  }
-
-  return { statusCode: 200 };
-};
+});}
