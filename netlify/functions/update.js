@@ -20,31 +20,9 @@ const queens = [
   { text: "🇨🇦 Ты королева Канады — твое присутствие вызывает улыбки у медведей и заставляет кленовые листья танцевать в воздухе." }
 ];
 
+
 exports.handler = async (event) => {
-  const { message } = JSON.parse(event.body);
-  const { command, botName, extra } = messageParts(message.text);
-
-  if (botName === "Q" || botName === undefined) {
-    switch (command) {
-      case "Queens":
-        const randomIndex = Math.floor(Math.random() * queens.length);
-        const responseMessage = queens[randomIndex].text;
-        await sendMessage(message.chat.id, responseMessage);
-        break;
-
-      case "Qecho":
-        await sendMessage(message.chat.id, extra || "ECHO!");
-        break;
-
-      case "Qhelp":
-        await sendMessage(message.chat.id, "Дарова, я Королевабот, напиши мне любую команду из того, что я сейчас перечислю и мы начнём!");
-        await sendMessage(message.chat.id, "/Qecho @Q - для эха, /Queens @Q - узнай, какой страны ты Королева");
-        break;
-
-      default:
-        await sendMessage(message.chat.id, "I don't understand that command.");
-    }
-  }
-
-  return { statusCode: 200 };
+  const { message } = JSON.parse(event.body);
+  await sendMessage(message.chat.id, "I got your message!");
+  return { statusCode: 200 };
 };
