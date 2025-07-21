@@ -1,4 +1,4 @@
-const { exec } = require('child_process');
+
 const sendMessage = require("../../sendMessage");
 const messageParts = require("../../messageParts");
 const queens = [
