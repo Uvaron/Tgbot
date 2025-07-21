@@ -1,5 +1,4 @@
 module.exports = (text) => {
-  text = text.trim();
 
   const commandMatch = text.match(/\/(\w+)(?=\s|@|$)/);
   const command = commandMatch ? commandMatch[1] : null;
