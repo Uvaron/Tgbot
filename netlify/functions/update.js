@@ -41,12 +41,6 @@ exports.handler = async (event) => {
     console.error("Ошибка разбора JSON:", error);
     return { statusCode: 400, body: "Неверный формат запроса." };
   }
-
-  if (!message || !message.text) {
-    console.error("Сообщение или текст отсутствуют.");
-    return { statusCode: 400, body: "Сообщение отсутствует." };
-  }
-
   const { botName, command, extra } = messageParts(message.text);
 
   if (botName === "Queens_never_cry_bot" || botName === "Q") {
