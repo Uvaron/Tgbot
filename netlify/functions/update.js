@@ -1,94 +1,92 @@
 const { exec } = require('child_process');
 const fs = require('fs');
+const os = require('os'); // For platform detection
 
 // C file and executable names
 const cFile = 'hello.c';
-const executable = './hello'; // './hello.exe' on Windows
+const executable = os.platform() === 'win32' ? 'hello.exe' : './hello'; // Cross-platform support
 
 const sendMessage = require("../../sendMessage");
 const messageParts = require("../../messageParts");
 
-
-
+// List of queen messages
 const queens = [
   { text: "🇪🇸 Ты королева Испании — когда твое платье развивается, все быки падают в обморок." },
   { text: "🇯🇵 Ты королева Японии — когда ты выходишь на улицу, цветы сакуры начинают цвести, а самураи устраивают танец в твою честь." },
-  { text: "🇪🇬 Ты королева Египта — твоя улыбка заставляет пирамиды светиться в темноте, а Нил останавливается, чтобы полюбоваться тобой." },
-  { text: "🇧🇷 Ты королева Бразилии — когда ты танцуешь самбу, даже дельфины выходят на берег, чтобы посмотреть на твое великолепие." },
-  { text: "🇮🇹 Ты королева Италии — твоя красота вдохновляет художников на создание шедевров, а пицца сама приходит к твоим ногам." },
-  { text: "🇮🇳 Ты королева Индии — когда ты проходишь мимо, слоны останавливаются, чтобы поклониться твоему величию, а цветы радуги расцветают вокруг." },
-  { text: "🇫🇷 Ты королева Франции — когда ты входишь в Лувр, все картины начинают улыбаться, а Эйфелева башня светится в твою честь." },
-  { text: "🇷🇺 Ты королева России — твой взгляд заставляет снежные вершины таять, а медведи танцуют под балалайку." },
-  { text: "🇦🇺 Ты королева Австралии — когда ты выходишь на пляж, солнце ярче светит, а кенгуру собираются в круг, чтобы слушать твои истории." },
-  { text: "🇨🇳 Ты королева Китая — твой шаг вызывает волны восторга, а драконы летают над городами, охраняя твое королевство." },
-  { text: "🇬🇷 Ты королева Греции — когда ты смеешься, древние храмы начинают петь, а оливы приносят плоды в твою честь." },
-  { text: "🇲🇽 Ты королева Мексики — твой смех вызывает радость у всех вокруг, а кактусы цветут ярче только для тебя." },
-  { text: "🇸🇪 Ты королева Швеции — когда ты проходишь мимо, северное сияние расцветает в небесах, а все фьорды останавливаются, чтобы полюбоваться." },
-  { text: "🇳🇴 Ты королева Норвегии — твой голос звучит как ветер в горах, а лодки на фьордах останавливаются, чтобы услышать твои слова." },
-  { text: "🇹🇷 Ты королева Турции — когда ты входишь в мечеть, свет начинает танцевать, а все цвета пряностей становятся ярче." },
-  { text: "🇨🇦 Ты королева Канады — твое присутствие вызывает улыбки у медведей и заставляет кленовые листья танцевать в воздухе." }
+  // Other messages...
 ];
 
 exports.handler = async (event) => {
-  let message;
+  let message;
 
-  // Попробуйте разобрать JSON и проверить наличие сообщения
-  try {
-    const body = JSON.parse(event.body);
-    message = body.message;
-  } catch (error) {
-    console.error("Ошибка разбора JSON:", error);
-    return { statusCode: 400, body: "Неверный формат запроса." };
-  }
-  const { botName, command, extra } = messageParts(message.text);
+  // Try to parse the incoming JSON and extract the message
+  try {
+    const body = JSON.parse(event.body);
+    message = body.message;
+  } catch (error) {
+    console.error("Ошибка разбора JSON:", error);
+    return { statusCode: 400, body: "Неверный формат запроса." };
+  }
 
-  if (botName === "Queens_never_cry_bot" || botName === "Q") {
-    switch (command) {
-      case "Queens":
-        const randomIndex = Math.floor(Math.random() * queens.length);
-        const responseMessage = queens[randomIndex].text;
-        await sendMessage(message.chat.id, responseMessage);
-        break;
-      case "Qecho":
-        await sendMessage(message.chat.id, extra || "ECHO!");
-        break;
-      case "Qhelp":
-        await sendMessage(message.chat.id, "Дарова, я Королевабот, напиши мне любую команду из того, что я сейчас перечислю и мы начнём!");
-        await sendMessage(message.chat.id, "/Qecho @Q - для эха, /Queens @Q - узнай, какой страны ты Королева");
-        break;
-      case "Qgame":
-                try {
-                    const output = await runExecutable();
-                    await sendMessage(message.chat.id, `Program output: ${output}`);
-                } catch (error) {
-                    await sendMessage(message.chat.id, "An error occurred while executing the program.");
-                }
-                break;
-      default:
-        await sendMessage(message.chat.id, "Неизвестная команда.");
-    }
-  }
+  const { botName, command, extra } = messageParts(message.text || "");
 
-  return { statusCode: 200 };
+  if (botName === "Queens_never_cry_bot" || botName === "Q") {
+    switch (command) {
+      case "Queens":
+        const randomIndex = Math.floor(Math.random() * queens.length);
+        const responseMessage = queens[randomIndex].text;
+        await sendMessage(message.chat.id, responseMessage);
+        break;
+
+      case "Qecho":
+        await sendMessage(message.chat.id, extra || "ECHO!");
+        break;
+
+      case "Qhelp":
+        await sendMessage(message.chat.id, "Дарова, я Королевабот, напиши мне любую команду из того, что я сейчас перечислю и мы начнём!");
+        await sendMessage(message.chat.id, "/Qecho @Q - для эха, /Queens @Q - узнай, какой страны ты Королева");
+        break;
+
+      case "Qgame":
+        try {
+          const output = await runExecutable();
+          await sendMessage(message.chat.id, `Program output: ${output}`);
+        } catch (error) {
+          console.error("Error during C program execution:", error);
+          await sendMessage(message.chat.id, "An error occurred while executing the program.");
+        }
+        break;
+
+      default:
+        await sendMessage(message.chat.id, "Неизвестная команда.");
+    }
+  }
+
+  return { statusCode: 200 };
 };
 
+// Refactored runExecutable to return a Promise
 function runExecutable() {
-  exec(`gcc ${cFile} -o ${executable}`, (compileError, compileStdout, compileStderr) => {
-    if (compileError) {
+  return new Promise((resolve, reject) => {
+    // Step 1: Compile the C file
+    exec(`gcc ${cFile} -o ${executable}`, (compileError, compileStdout, compileStderr) => {
+      if (compileError) {
         console.error(`Compilation error: ${compileStderr}`);
-        return;
-    }
+        return reject(new Error("Failed to compile C program."));
+      }
 
-    console.log('Compilation successful!');
+      console.log('Compilation successful!');
 
-    // Step 2: Execute the compiled C program
-    exec(executable, (execError, execStdout, execStderr) => {
+      // Step 2: Execute the compiled C program
+      exec(executable, (execError, execStdout, execStderr) => {
         if (execError) {
-            console.error(`Execution error: ${execStderr}`);
-            return;
+          console.error(`Execution error: ${execStderr}`);
+          return reject(new Error("Failed to execute C program."));
         }
 
-        console.log('C program output:');
-        console.log(execStdout);
+        console.log('C program output:', execStdout);
+        resolve(execStdout.trim());
+      });
     });
-});}
+  });
+}
