@@ -1,7 +1,6 @@
-const { exec } = require('child_process');
+cconst { exec } = require('child_process');
 const sendMessage = require("../../sendMessage");
 const messageParts = require("../../messageParts");
-
 const queens = [
   { text: "🇪🇸 Ты королева Испании — когда твое платье развивается, все быки падают в обморок." },
   { text: "🇯🇵 Ты королева Японии — когда ты выходишь на улицу, цветы сакуры начинают цвести, а самураи устраивают танец в твою честь." },
@@ -22,61 +21,41 @@ const queens = [
 ];
 
 exports.handler = async (event) => {
-  let message;
-
-  // Validate and parse the input
-  try {
-    const body = JSON.parse(event.body || '{}');
-    message = body.message;
-  } catch (error) {
-    console.error("Invalid JSON format:", error);
-    return { statusCode: 400, body: "Invalid request format." };
-  }
-
-  // Ensure message and message.text are defined
-  if (!message || !message.text) {
-    console.error("Message or message.text is undefined.");
-    return { statusCode: 400, body: "Invalid message format." };
-  }
-
+  const { message } = JSON.parse(event.body);
   const { botName, command, extra } = messageParts(message.text);
 
   if (botName === "Queens_never_cry_bot" || botName === "Q") {
     switch (command) {
       case "Queens":
         const randomIndex = Math.floor(Math.random() * queens.length);
-        const responseMessage = queens[randomIndex].text;
+        const responseMessage = queens[randomIndex].text; // Изменено на .text
         await sendMessage(message.chat.id, responseMessage);
         break;
-
       case "Qecho":
         await sendMessage(message.chat.id, extra || "ECHO!");
         break;
-
-      case "Qhelp":
+      case "Qhelp": // Добавлено двоеточие
         await sendMessage(message.chat.id, "Дарова, я Королевабот, напиши мне любую команду из того, что я сейчас перечислю и мы начнём!");
         await sendMessage(message.chat.id, "/Qecho @Q - для эха, /Queens @Q - узнай, какой страны ты Королева");
         break;
-
-      case "Qgame":
-        try {
-          const output = await runExecutable();
-          await sendMessage(message.chat.id, `Program output: ${output}`);
-        } catch (error) {
-          console.error("Error during C program execution:", error);
-          await sendMessage(message.chat.id, "An error occurred while executing the program.");
-        }
-        break;
-
       default:
-        await sendMessage(message.chat.id, "Неизвестная команда.");
+         exec('./tic_tac_toe', (error, stdout, stderr) => {
+                    if (error) {
+            console.error(`Exec Error: ${error.message}`);
+            sendMessage(message.chat.id, 'Ошибка при запуске игры.');
+            return;
+        }
+        if (stderr) {
+            console.error(`Exec Stderr: ${stderr}`);
+            sendMessage(message.chat.id, 'Произошла ошибка.');
+            return;
+        }
+        console.log(`Game Output: ${stdout}`);
+        sendMessage(message.chat.id, stdout);
+    });
+
     }
   }
 
   return { statusCode: 200 };
 };
-
-// Updated runExecutable to avoid using gcc at runtime
-function runExecutable() {
-  return Promise.resolve("Hello, World!");
-}
