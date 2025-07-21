@@ -1,6 +1,6 @@
-
 const sendMessage = require("../../sendMessage");
 const messageParts = require("../../messageParts");
+
 const queens = [
   { text: "🇪🇸 Ты королева Испании — когда твое платье развивается, все быки падают в обморок." },
   { text: "🇯🇵 Ты королева Японии — когда ты выходишь на улицу, цветы сакуры начинают цвести, а самураи устраивают танец в твою честь." },
@@ -23,6 +23,11 @@ const queens = [
 
 exports.handler = async (event) => {
   const { message } = JSON.parse(event.body);
-  await sendMessage(message.chat.id, "I got your message!");
+  const { command, botName, extra } = messageParts(message.text);
+
+  if (botName === "Queens_never_cry_bot" || botName === "Q") {
+    await sendMessage(message.chat.id, "I got your message!");
+  }
+
   return { statusCode: 200 };
 };
