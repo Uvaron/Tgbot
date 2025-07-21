@@ -1,4 +1,4 @@
-cconst { exec } = require('child_process');
+const { exec } = require('child_process');
 const sendMessage = require("../../sendMessage");
 const messageParts = require("../../messageParts");
 const queens = [
@@ -39,19 +39,7 @@ exports.handler = async (event) => {
         await sendMessage(message.chat.id, "/Qecho @Q - для эха, /Queens @Q - узнай, какой страны ты Королева");
         break;
       default:
-         exec('./tic_tac_toe', (error, stdout, stderr) => {
-                    if (error) {
-            console.error(`Exec Error: ${error.message}`);
-            sendMessage(message.chat.id, 'Ошибка при запуске игры.');
-            return;
-        }
-        if (stderr) {
-            console.error(`Exec Stderr: ${stderr}`);
-            sendMessage(message.chat.id, 'Произошла ошибка.');
-            return;
-        }
-        console.log(`Game Output: ${stdout}`);
-        sendMessage(message.chat.id, stdout);
+        await sendMessage(message.chat.id, "I don't understand that command.");
     });
 
     }
