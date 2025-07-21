@@ -1,6 +1,5 @@
 const { exec } = require('node:child_process');
-const path = require('path');
-const tictactoePath = path.join(__dirname, '../../tictactoe');
+
 const sendMessage = require("../../sendMessage");
 const messageParts = require("../../messageParts");
 
@@ -60,19 +59,30 @@ exports.handler = async (event) => {
         await sendMessage(message.chat.id, "/Qecho @Q - для эха, /Queens @Q - узнай, какой страны ты Королева");
         break;
       case "Qgame":
-        console.log(`Запуск файла: ${tictactoePath}`); // Лог для отладки
-        exec(tictactoePath, (error, stdout, stderr) => {
-          if (error) {
-            console.error(`Ошибка: ${error.message}`);
-            return;
-          }
-          if (stderr) {
-            console.error(`Ошибка: ${stderr}`);
-            return;
-          }
-          console.log(`Вывод: ${stdout}`);
-        });
-        break;
+  const tictactoePath = path.join(__dirname, '../../tictactoe'); // Adjust path as needed
+  console.log(`Resolved tictactoePath: ${tictactoePath}`);
+
+  // Check if file exists
+  if (!fs.existsSync(tictactoePath)) {
+    console.error('TicTacToe file not found at:', tictactoePath);
+    await sendMessage(message.chat.id, "Ошибка: файл TicTacToe не найден.");
+    return;
+  }
+
+  // Execute file
+  exec(`node ${tictactoePath}`, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Execution error: ${error.message}`);
+      sendMessage(message.chat.id, "Ошибка при выполнении игры.");
+      return;
+    }
+    if (stderr) {
+      console.error(`Stderr: ${stderr}`);
+    }
+    console.log(`Output: ${stdout}`);
+    sendMessage(message.chat.id, "Игра успешно запущена!");
+  });
+  break;
       default:
         await sendMessage(message.chat.id, "Неизвестная команда.");
     }
