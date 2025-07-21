@@ -22,9 +22,9 @@ const queens = [
 
 exports.handler = async (event) => {
   const { message } = JSON.parse(event.body);
-  const { botName, command, extra } = messageParts(message.text);
+  const { command, botName, extra } = messageParts(message.text);
 
-  if (botName === "Queens_never_cry_bot" || botName === "Q") {
+  if (botName === "Q" || botName === null) {
     switch (command) {
       case "Queens":
         const randomIndex = Math.floor(Math.random() * queens.length);
