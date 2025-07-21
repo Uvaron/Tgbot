@@ -21,29 +21,30 @@ const queens = [
 ];
 
 exports.handler = async (event) => {
-  const { message } = JSON.parse(event.body);
-  const { command, botName, extra } = messageParts(message.text);
+  const { message } = JSON.parse(event.body);
+  const { command, botName, extra } = messageParts(message.text);
 
-  if (botName === "Q" || botName === null) {
-    switch (command) {
-      case "Queens":
-        const randomIndex = Math.floor(Math.random() * queens.length);
-        const responseMessage = queens[randomIndex].text; // Изменено на .text
-        await sendMessage(message.chat.id, responseMessage);
-        break;
-      case "Qecho":
-        await sendMessage(message.chat.id, extra || "ECHO!");
-        break;
-      case "Qhelp": // Добавлено двоеточие
-        await sendMessage(message.chat.id, "Дарова, я Королевабот, напиши мне любую команду из того, что я сейчас перечислю и мы начнём!");
-        await sendMessage(message.chat.id, "/Qecho @Q - для эха, /Queens @Q - узнай, какой страны ты Королева");
-        break;
-      default:
-        await sendMessage(message.chat.id, "I don't understand that command.");
-    });
+  if (botName === "Q" || botName === undefined) {
+    switch (command) {
+      case "Queens":
+        const randomIndex = Math.floor(Math.random() * queens.length);
+        const responseMessage = queens[randomIndex].text;
+        await sendMessage(message.chat.id, responseMessage);
+        break;
 
-    }
-  }
+      case "Qecho":
+        await sendMessage(message.chat.id, extra || "ECHO!");
+        break;
 
-  return { statusCode: 200 };
+      case "Qhelp":
+        await sendMessage(message.chat.id, "Дарова, я Королевабот, напиши мне любую команду из того, что я сейчас перечислю и мы начнём!");
+        await sendMessage(message.chat.id, "/Qecho @Q - для эха, /Queens @Q - узнай, какой страны ты Королева");
+        break;
+
+      default:
+        await sendMessage(message.chat.id, "I don't understand that command.");
+    }
+  }
+
+  return { statusCode: 200 };
 };
