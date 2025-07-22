@@ -39,7 +39,11 @@ exports.handler = async (event) => {
         await sendMessage(message.chat.id, "Дарова, я Королевабот, напиши мне любую команду из того, что я сейчас перечислю и мы начнём!");
         await sendMessage(message.chat.id, "/Qecho @Q - для эха, /Queens @Q - узнай, какой страны ты Королева");
         break;
+      default:
+    await sendMessage(message.chat.id, "I don't understand that command.");
+
 
 
   return { statusCode: 200 };
+    }
 };
