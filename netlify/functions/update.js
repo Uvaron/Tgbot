@@ -1,6 +1,6 @@
 const sendMessage = require("../../sendMessage");
 const messageParts = require("../../messageParts");
-const duelRequests = {};
+
 const queens = [
   { text: "🇪🇸 Ты королева Испании — когда твое платье развивается, все быки падают в обморок." },
   { text: "🇯🇵 Ты королева Японии — когда ты выходишь на улицу, цветы сакуры начинают цвести, а самураи устраивают танец в твою честь." },
@@ -47,50 +47,7 @@ exports.handler = async (event) => {
 
 
 
-          case "duel":
-          const opponentUserId = extra; // Ожидаем, что пользователь укажет ID соперника
-          if (!opponentUserId) {
-            await sendMessage(message.chat.id, "Пожалуйста, укажите пользователя для дуэли.");
-            const opponentUserId = extra;
-            break;
-          }
-
-          duelRequests[message.chat.id] = opponentUserId;
-          await sendMessage(opponentUserId, `${message.from.first_name} вызвал вас на дуэль! Примите или отклоните (используйте /accept или /decline).`);
-          break;
-
-        case "accept":
-          if (duelRequests[message.chat.id]) {
-            const challengerId = duelRequests[message.chat.id];
-            await sendMessage(challengerId, `${message.from.first_name} принял дуэль!`);
-            const winner = Math.random() < 0.5 ? challengerId : message.chat.id;
-            await sendMessage(winner, "Вы победили в дуэли!");
-            delete duelRequests[message.chat.id];
-          } else {
-            await sendMessage(message.chat.id, "У вас нет открытых запросов на дуэль.");
-          }
-          break;
-
-        case "decline":
-          if (duelRequests[message.chat.id]) {
-            const challengerId = duelRequests[message.chat.id];
-            await sendMessage(challengerId, `${message.from.first_name} отклонил дуэль.`);
-            delete duelRequests[message.chat.id];
-          } else {
-            await sendMessage(message.chat.id, "У вас нет открытых запросов на дуэль.");
-          }
-          break;
-
-
-        case "decline":
-          if (duelRequests[message.chat.id]) {
-            const challengerId = duelRequests[message.chat.id];
-            await sendMessage(challengerId, `${message.from.first_name} отклонил дуэль.`);
-            delete duelRequests[message.chat.id]; // Удаляем запрос
-          } else {
-            await sendMessage(message.chat.id, "У вас нет открытых запросов на дуэль.");
-          }
-          break;
+       
 
 
 
