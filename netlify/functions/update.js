@@ -1,6 +1,6 @@
 const sendMessage = require("../../sendMessage");
 const messageParts = require("../../messageParts");
-
+const duelRequests = {};
 const queens = [
   { text: "🇪🇸 Ты королева Испании — когда твое платье развивается, все быки падают в обморок." },
   { text: "🇯🇵 Ты королева Японии — когда ты выходишь на улицу, цветы сакуры начинают цвести, а самураи устраивают танец в твою честь." },
