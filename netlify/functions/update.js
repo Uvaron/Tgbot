@@ -51,7 +51,7 @@ exports.handler = async (event) => {
           const opponentUserId = extra; // Ожидаем, что пользователь укажет ID соперника
           if (!opponentUserId) {
             await sendMessage(message.chat.id, "Пожалуйста, укажите пользователя для дуэли.");
-            const opponentUserId = extra.trim();
+            const opponentUserId = extra;
             break;
           }
 
