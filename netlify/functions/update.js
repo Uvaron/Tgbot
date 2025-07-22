@@ -44,10 +44,10 @@ exports.handler = async (event) => {
           await sendMessage(message.chat.id, "Дарова, я Королевабот, напиши мне любую команду из того, что я сейчас перечислю и мы начнём!");
           await sendMessage(message.chat.id, "/Qecho @Q - для эха, /Queens @Q - узнай, какой страны ты Королева");
           break;
-        /*case "duel":
-          await sendMessage(message.chat.id, "Дарова, я Королевабот, напиши мне любую команду из того, что я сейчас перечислю и мы начнём!");
-          await sendMessage(message.chat.id, "/Qecho @Q - для эха, /Queens @Q - узнай, какой страны ты Королева");
-          break;*/
+        case "duel":
+          const duelman = extra;
+          await sendMessage(duelman, "Привет пупsick")
+          break;
               
 
 
