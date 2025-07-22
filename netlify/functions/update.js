@@ -26,8 +26,20 @@ exports.handler = async (event) => {
   const { command, botName, extra } = messageParts(message.text);
 
   if (botName === "Queens_never_cry_bot" || botName === "Q") {
-    await sendMessage(message.chat.id, "I got your message!");
-  }
+    switch (command) {
+      case "Queens":
+        const randomIndex = Math.floor(Math.random() * queens.length);
+        const responseMessage = queens[randomIndex].text; // Изменено на .text
+        await sendMessage(message.chat.id, responseMessage);
+        break;
+      case "Qecho":
+        await sendMessage(message.chat.id, extra || "ECHO!");
+        break;
+      case "Qhelp": // Добавлено двоеточие
+        await sendMessage(message.chat.id, "Дарова, я Королевабот, напиши мне любую команду из того, что я сейчас перечислю и мы начнём!");
+        await sendMessage(message.chat.id, "/Qecho @Q - для эха, /Queens @Q - узнай, какой страны ты Королева");
+        break;
+
 
   return { statusCode: 200 };
 };
