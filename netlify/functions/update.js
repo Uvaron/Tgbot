@@ -44,6 +44,54 @@ exports.handler = async (event) => {
           await sendMessage(message.chat.id, "Дарова, я Королевабот, напиши мне любую команду из того, что я сейчас перечислю и мы начнём!");
           await sendMessage(message.chat.id, "/Qecho @Q - для эха, /Queens @Q - узнай, какой страны ты Королева");
           break;
+
+
+
+          case "duel":
+          const opponentUserId = extra; // Ожидаем, что пользователь укажет ID соперника
+          if (!opponentUserId) {
+            await sendMessage(message.chat.id, "Пожалуйста, укажите пользователя для дуэли.");
+            break;
+          }
+
+          duelRequests[message.chat.id] = opponentUserId; // Сохраняем запрос
+          await sendMessage(opponentUserId, `${message.from.first_name} вызвал вас на дуэль! Примите или отклоните (используйте /accept или /decline).`);
+          break;
+
+        case "accept":
+          if (duelRequests[message.chat.id]) {
+            const challengerId = duelRequests[message.chat.id];
+            await sendMessage(challengerId, `${message.from.first_name} принял дуэль!`);
+            // Здесь можно добавить логику для определения победителя
+            // Например, случайное число или другой метод
+            const winner = Math.random() < 0.5 ? challengerId : message.chat.id; // Простой случайный выбор
+            await sendMessage(winner, "Вы победили в дуэли!");
+            delete duelRequests[message.chat.id]; // Удаляем запрос
+          } else {
+            await sendMessage(message.chat.id, "У вас нет открытых запросов на дуэль.");
+          }
+          break;
+
+        case "decline":
+          if (duelRequests[message.chat.id]) {
+            const challengerId = duelRequests[message.chat.id];
+            await sendMessage(challengerId, `${message.from.first_name} отклонил дуэль.`);
+            delete duelRequests[message.chat.id]; // Удаляем запрос
+          } else {
+            await sendMessage(message.chat.id, "У вас нет открытых запросов на дуэль.");
+          }
+          break;
+
+
+
+
+
+
+
+
+
+
+          
         default:
           await sendMessage(message.chat.id, "I don't understand that command.");
       }
