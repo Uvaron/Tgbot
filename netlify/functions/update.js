@@ -46,10 +46,10 @@ exports.handler = async (event) => {
           break;
          case "duel":
           if (!extra) {
-            await sendMessage(message.chat.id, "Пожалуйста, укажите пользователя для дуэли.");
+            await sendMessage(@mr_cub3, "Пожалуйста, укажите пользователя для дуэли.");
             break;
           }
-          const duelman = extra.trim(); // Используем только если extra существует
+          //const duelman = extra.trim(); // Используем только если extra существует
           await sendMessage(duelman, "Привет, ты вызван на дуэль!");
           break;
           
