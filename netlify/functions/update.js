@@ -55,7 +55,7 @@ exports.handler = async (event) => {
             break;
           }
 
-          duelRequests[message.chat.id] = opponentUserId; // Сохраняем запрос
+          duelRequests[message.chat.id] = opponentUserId;
           await sendMessage(opponentUserId, `${message.from.first_name} вызвал вас на дуэль! Примите или отклоните (используйте /accept или /decline).`);
           break;
 
@@ -63,15 +63,24 @@ exports.handler = async (event) => {
           if (duelRequests[message.chat.id]) {
             const challengerId = duelRequests[message.chat.id];
             await sendMessage(challengerId, `${message.from.first_name} принял дуэль!`);
-            // Здесь можно добавить логику для определения победителя
-            // Например, случайное число или другой метод
-            const winner = Math.random() < 0.5 ? challengerId : message.chat.id; // Простой случайный выбор
+            const winner = Math.random() < 0.5 ? challengerId : message.chat.id;
             await sendMessage(winner, "Вы победили в дуэли!");
-            delete duelRequests[message.chat.id]; // Удаляем запрос
+            delete duelRequests[message.chat.id];
           } else {
             await sendMessage(message.chat.id, "У вас нет открытых запросов на дуэль.");
           }
           break;
+
+        case "decline":
+          if (duelRequests[message.chat.id]) {
+            const challengerId = duelRequests[message.chat.id];
+            await sendMessage(challengerId, `${message.from.first_name} отклонил дуэль.`);
+            delete duelRequests[message.chat.id];
+          } else {
+            await sendMessage(message.chat.id, "У вас нет открытых запросов на дуэль.");
+          }
+          break;
+
 
         case "decline":
           if (duelRequests[message.chat.id]) {
