@@ -32,15 +32,15 @@ exports.handler = async (event) => {
 
     if (botName === "Queens_never_cry_bot" || botName === "Q") {
       switch (command) {
-        case "Queens":
+        case "queens":
           const randomIndex = Math.floor(Math.random() * queens.length);
           const responseMessage = queens[randomIndex].text;
           await sendMessage(message.chat.id, responseMessage);
           break;
-        case "Qecho":
+        case "qecho":
           await sendMessage(message.chat.id, extra || "ECHO!");
           break;
-        case "Qhelp":
+        case "qhelp":
           await sendMessage(message.chat.id, "Дарова, я Королевабот, напиши мне любую команду из того, что я сейчас перечислю и мы начнём!");
           await sendMessage(message.chat.id, "/Qecho @Q - для эха, /Queens @Q - узнай, какой страны ты Королева");
           break;
