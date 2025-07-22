@@ -45,13 +45,13 @@ exports.handler = async (event) => {
           await sendMessage(message.chat.id, "/Qecho @Q - для эха, /Queens @Q - узнай, какой страны ты Королева");
           break;
          case "duel":
-          if (!extra) {
-            await sendMessage(message.chat.id, "Пожалуйста, укажите пользователя для дуэли.");
-            break;
-          }
-          const duelTarget = extra.trim(); // Получаем имя пользователя
-          await sendMessage(message.chat.id, `Привет, ${duelTarget}, ты вызван на дуэль!`);
-          break;
+                if (!extra) {
+                    await sendMessage(message.chat.id, "Пожалуйста, укажите пользователя для дуэли.");
+                    break;
+                }
+                const duelTarget = extra.trim();
+                await sendMessage(message.chat.id, `Привет, ${duelTarget}, ты вызван на дуэль!`);
+                break;
          
 
 
