@@ -25,7 +25,7 @@ exports.handler = async (event) => {
   const { message } = JSON.parse(event.body);
   const { command, botName, extra } = messageParts(message.text);
 
-    if (botName === "Queens_never_cry_bot" || botName === "Q" || (command === "duel" && botName === "")) {
+    if (botName === "Queens_never_cry_bot" || botName === "Q") {
         switch (command) {
             case "queens":
                 const randomIndex = Math.floor(Math.random() * queens.length);
