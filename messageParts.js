@@ -1,17 +1,12 @@
 module.exports = (text) => {
-  if (!text) {
-    return { command: null, botName: null, extra: null };
-  }
-
-  const commandMatch = text.match(/(?<=\/)\w+/);
+  const commandMatch = text.match(/(?<=\/).*?(?=$| |@)/);
   const command = commandMatch ? commandMatch[0] : null;
 
-  const botNameMatch = text.match(/(?<=@)\w+/);
+  const botNameMatch = text.match(/(?<=@).*?(?=($| ))/);
   const botName = botNameMatch ? botNameMatch[0] : null;
 
-  const extraMatch = text.match(/(?<=\s(?:\/\w+\s)?@?\w+\s).+/);
+  const extraMatch = text.match(/(?<=\s).*?(?=$)/);
   const extra = extraMatch ? extraMatch[0] : null;
-
 
   return {
     command,
