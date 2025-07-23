@@ -38,14 +38,14 @@ exports.handler = async (event) => {
             case "qhelp":
                 await sendMessage(message.chat.id, "Дарова, я Королевабот, напиши мне любую команду...");
                 break;
-            case "duel":
+           /* case "duel":
                 if (!extra) {
                     await sendMessage(message.chat.id, "Пожалуйста, укажите пользователя для дуэли.");
                     break;
                 }
                 const duelTarget = extra.trim();
                 await sendMessage(message.chat.id, `Привет, ${duelTarget}, ты вызван на дуэль!`);
-                break;
+                break;*/
             default:
                 await sendMessage(message.chat.id, "I don't understand that command.");
         }
