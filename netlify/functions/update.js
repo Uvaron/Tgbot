@@ -43,7 +43,6 @@ exports.handler = async (event) => {
                     await sendMessage(message.chat.id, "Пожалуйста, укажите пользователя для дуэли.");
                     break;
                 }
-                const duelTarget = extra.trim();
                 await sendMessage(message.chat.id, `Привет, ${duelTarget}, ты вызван на дуэль!`);
                 break;
             default:
