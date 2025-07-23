@@ -22,22 +22,8 @@ const queens = [
 
 
 exports.handler = async (event) => {
-    let body;
-
-    try {
-        body = JSON.parse(event.body);
-        console.log("Incoming message:", JSON.stringify(body));
-
-        if (!body || !body.message || !body.message.text) {
-            throw new Error("Invalid message structure");
-        }
-    } catch (error) {
-        console.error("Error:", error);
-        return { statusCode: 400, body: "Invalid request" };
-    }
-
-    const { message } = body;
-    const { command, botName, extra } = messageParts(message.text);
+  const { message } = JSON.parse(event.body);
+  const { command, botName, extra } = messageParts(message.text);
 
     if (botName === "Queens_never_cry_bot" || botName === "Q" || (command === "duel" && botName === "")) {
         switch (command) {
