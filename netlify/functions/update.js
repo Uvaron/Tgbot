@@ -33,7 +33,7 @@ exports.handler = async (event) => {
                 await sendMessage(message.chat.id, responseMessage);
                 break;
             case "qecho":
-                await sendMessage(message.chat.id, extra || "ECHO!");
+                await sendMessage(message.chat.id, extra.trim() || "ECHO!");
                 break;
             case "qhelp":
                 await sendMessage(message.chat.id, "Дарова, я Королевабот, напиши мне любую команду...");
@@ -43,7 +43,7 @@ exports.handler = async (event) => {
                     await sendMessage(message.chat.id, "Пожалуйста, укажите пользователя для дуэли.");
                     break;
                 }
-                const duelTarget = extra;
+                const duelTarget = extra.trim();
                 await sendMessage(message.chat.id, `Привет, ${duelTarget}, ты вызван на дуэль!`);
                 break;
             default:
