@@ -10,7 +10,7 @@ module.exports = (text) => {
   const botName = botNameMatch ? botNameMatch[0] : null;
 
   const extraMatch = text.match(/(?<=\s(?:\/\w+\s)?@?\w+\s).+/);
-  const extra = extraMatch ? extraMatch[0].trim() : null;
+  const extra = extraMatch ? extraMatch[0] : null;
 
 
   return {
